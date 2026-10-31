@@ -1,0 +1,10 @@
+#Components i need
+- create header ✅
+- create a chart card ✅
+- create a reusable button ✅
+- create asset card ✅
+- create summary cards(holdings, recent activity) ✅
+
+# Next - Functionality 
+- when an asset is clicked on, there should be a form modal that pops up
+
