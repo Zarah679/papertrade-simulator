@@ -3,7 +3,7 @@
 import { RouterView } from 'vue-router'
 import Header from './components/Header.vue';
 import FormModal from './components/FormModal.vue';
-import { ref, onMounted, onUnmounted, watchEffect } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 
 const API_URL = '/api/markets/stats'
 
@@ -47,6 +47,7 @@ const assets = ref([
   },
 ])
 const holdings = ref([])
+const trades = ref([])
 
 async function registerUser({ name, email, password }) {
   try {
@@ -151,6 +152,24 @@ function openModal(asset) {
     modalIsOpen.value = true
 }
 
+// this recalculates whenever holding changes(buy/sell)
+// total equity value = cash + current price of stock
+const totalEquityValue = computed(() => {
+  const totalHoldingsValue = holdings.value.reduce((total, holding) => {
+    
+    // the asset has to correspond to the one in the holding
+    const asset = assets.value.find((asset) => asset.symbol === holding.symbol)
+
+    if(!asset) return total
+
+    return total + (holding.quantity * asset.price)
+
+  }, 0)
+
+  //after the total value of the assets have been accumulated, add that to the balance
+  return balance.value + totalHoldingsValue
+ })  
+
 // update asset prices 
 function updateAssetPrice(update) {
   const symbol = update.symbol?.split('-')[0]
@@ -223,6 +242,19 @@ function confirmPurchase({ quantity, symbol }) {
         averagePrice: asset.price
       })
     }
+
+
+    // Store execution values once; live quotes must not change past trades.
+    trades.value.unshift({
+      id: crypto.randomUUID(), 
+      name: asset.name, 
+      symbol: asset.symbol,
+      side: 'Buy', 
+      quantity, 
+      price: asset.price, 
+      total: cost,
+      createdAt: new Date().toISOString()
+    })
 
 
     modalIsOpen.value = false
@@ -313,9 +345,12 @@ onUnmounted(() => {
       <component 
         :is="Component" 
         :assets="assets" 
-        :holdings="holdings" 
+        :holdings="holdings"
+        :trades="trades" 
         :balance="balance"
-        :error="error" :last-fetched="lastFetched" @select="openModal" 
+        :totalEquityValue="totalEquityValue"
+        :error="error" 
+        :last-fetched="lastFetched" @select="openModal" 
         @confirm="confirmPurchase" 
         @register="registerUser" 
         @login="loginUser" />

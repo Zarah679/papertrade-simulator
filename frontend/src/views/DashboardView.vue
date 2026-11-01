@@ -5,8 +5,17 @@ import SummaryCard from '../components/SummaryCard.vue'
 import Button from '../components/Button.vue'
 import AssetGrid from '../components/AssetGrid.vue'
 import BalanceCard from '../components/BalanceCard.vue'
-defineProps({ assets: Array, holdings: Array, balance: Number, error: String, lastFetched: String })
+
+defineProps({ 
+    assets: Array, 
+    holdings: Array, 
+    balance: Number, 
+    error: String, 
+    lastFetched: String,
+ })
+
 const emit = defineEmits(['select'])
+
 </script>
 <template>
     <!-- page container - control max width, center everything and allows space at the edges of the screen  -->
@@ -18,7 +27,7 @@ const emit = defineEmits(['select'])
                 <div>
                   <div>
                     <h1 class="font-bold text-4xl font-inter">Your Account Overview</h1>
-                    <p>Start Practicing with $10,000 in virtual funds</p>
+                    <p>A quick account check then explore what to trade</p>
                   </div>
 
                   <RouterLink to="/markets" class="text-blue-600 hover:underline">

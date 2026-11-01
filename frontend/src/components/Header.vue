@@ -23,7 +23,9 @@ const LINKS = ['Trade', 'Portfolio', 'Watchlist', 'Leaderboard']
             <div class="flex gap-3 overflow-x-auto text-sm sm:gap-6">
                 <RouterLink to="/trading" active-class="text-blue-600">Trade</RouterLink>
                 <RouterLink to="/markets" active-class="text-blue-600">Markets</RouterLink>
-                <a href="#">Portfolio</a>
+                <RouterLink to="/portfolio"
+                active-class="text-blue-600">Portfolio
+                </RouterLink>
                 <a href="#">Watchlist</a>
                 <a href="#">Leaderboards</a>
             </div>

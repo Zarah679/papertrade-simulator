@@ -1,5 +1,8 @@
 <!-- quantity and price should reflect here and change dynamically -->
 <script setup>
+import { Icon } from '@iconify/vue'
+import { RouterLink } from 'vue-router'
+
     const props = defineProps({
         holdings: Object,
         required: true,
@@ -57,6 +60,12 @@
         <p class="text-xs text-slate-500">
           Avg. buy price
         </p>
+      </div>
+      <div>
+        <RouterLink to="/portfolio" class="text-blue-600 hover:underline">
+          View Portfolio
+          <Icon icon="lucide:arrow" class="icon-large"/>
+        </RouterLink>
       </div>
     </div>
   </section>

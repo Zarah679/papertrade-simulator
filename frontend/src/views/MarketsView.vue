@@ -6,6 +6,7 @@ const props = defineProps({ assets: Array, holdings: Array, balance: Number, err
 const emit = defineEmits(['select'])
 const search = ref('')
 const category = ref('All')
+
 const filteredAssets = computed(() => props.assets.filter(asset =>
   (category.value === 'All' || asset.type === category.value) &&
   `${asset.name} ${asset.symbol}`.toLowerCase().includes(search.value.trim().toLowerCase())
